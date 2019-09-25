@@ -5,7 +5,7 @@ import {getProduct} from '../public/redux/action/product';
 import DetailNav from '../components/Header/DetailNav';
 import ProductDetail from '../components/Body/ProductDetail';
 
-function Detail(props) {
+const Detail = props => {
   const fetchProduct = async () => {
     await props.dispatch(getProduct(props.navigation.getParam('id')));
   };
@@ -24,7 +24,7 @@ function Detail(props) {
       </View>
     </Fragment>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

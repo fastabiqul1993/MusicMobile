@@ -11,6 +11,14 @@ const MainFooter = props => {
     props.navigation.navigate('Wishlist');
   };
 
+  const onCart = () => {
+    props.navigation.navigate('Cart');
+  };
+
+  const onUser = () => {
+    props.navigation.navigate('Sign');
+  };
+
   return (
     <Footer style={styles.footerWrap}>
       <FooterTab>
@@ -22,14 +30,14 @@ const MainFooter = props => {
           <Icon name="heart" />
           <Text style={styles.navText}>Wishlist</Text>
         </Button>
-        <Button badge horizontal>
+        <Button badge horizontal onPress={onCart}>
           <Badge>
             <Text>51</Text>
           </Badge>
           <Icon name="cart" />
           <Text style={styles.navText}>Cart</Text>
         </Button>
-        <Button horizontal>
+        <Button horizontal onPress={onUser}>
           <Icon name="contact" />
           <Text style={styles.navText}>User</Text>
         </Button>

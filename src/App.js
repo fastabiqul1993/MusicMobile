@@ -14,6 +14,10 @@ import Category from './container/Category';
 import ProductList from './container/ProductList';
 import Detail from './container/Detail';
 import Wishlist from './container/Wishlist';
+import CartContainer from './container/CartContainer';
+import Sign from './container/Sign';
+import Login from './container/Login';
+import Register from './container/Register';
 
 import store from './public/redux/store';
 import {Provider} from 'react-redux';
@@ -39,6 +43,30 @@ const AppNavigator = createStackNavigator({
   },
   Wishlist: {
     screen: Wishlist,
+    navigationOptions: () => ({
+      header: null,
+    }),
+  },
+  Cart: {
+    screen: CartContainer,
+    navigationOptions: () => ({
+      header: null,
+    }),
+  },
+  Sign: {
+    screen: Sign,
+    navigationOptions: () => ({
+      header: null,
+    }),
+  },
+  Login: {
+    screen: Login,
+    navigationOptions: () => ({
+      header: null,
+    }),
+  },
+  Register: {
+    screen: Register,
     navigationOptions: () => ({
       header: null,
     }),
