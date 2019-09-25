@@ -5,6 +5,8 @@ import {getAllCategory} from '../public/redux/action/category';
 import MainNav from '../components/Header/MainNav';
 import MainFooter from '../components/Footer/MainFooter';
 import CategoryCard from '../components/Body/CategoryCard';
+import Cart from '../components/Body/Cart';
+import CartFooter from '../components/Footer/CartFooter';
 
 const Home = props => {
   const fetchCategories = async () => {

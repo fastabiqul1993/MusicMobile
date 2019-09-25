@@ -7,6 +7,10 @@ const MainFooter = props => {
     props.navigation.navigate('Home');
   };
 
+  const onWishList = () => {
+    props.navigation.navigate('Wishlist');
+  };
+
   return (
     <Footer style={styles.footerWrap}>
       <FooterTab>
@@ -14,7 +18,7 @@ const MainFooter = props => {
           <Icon name="home" />
           <Text style={styles.navText}>Home</Text>
         </Button>
-        <Button horizontal>
+        <Button horizontal onPress={onWishList}>
           <Icon name="heart" />
           <Text style={styles.navText}>Wishlist</Text>
         </Button>

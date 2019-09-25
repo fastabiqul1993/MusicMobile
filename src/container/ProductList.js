@@ -1,11 +1,5 @@
-import React, {Fragment, useEffect} from 'react';
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import React, {useEffect} from 'react';
+import {StyleSheet, View, ScrollView, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {getAllProduct} from '../public/redux/action/product';
 import MainNav from '../components/Header/MainNav';

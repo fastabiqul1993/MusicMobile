@@ -13,6 +13,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import Category from './container/Category';
 import ProductList from './container/ProductList';
 import Detail from './container/Detail';
+import Wishlist from './container/Wishlist';
 
 import store from './public/redux/store';
 import {Provider} from 'react-redux';
@@ -32,6 +33,12 @@ const AppNavigator = createStackNavigator({
   },
   Detail: {
     screen: Detail,
+    navigationOptions: () => ({
+      header: null,
+    }),
+  },
+  Wishlist: {
+    screen: Wishlist,
     navigationOptions: () => ({
       header: null,
     }),
