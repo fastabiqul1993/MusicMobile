@@ -1,18 +1,48 @@
-import React, {useEffect, Fragment} from 'react';
-import {StyleSheet, View, ScrollView} from 'react-native';
+import React, {useEffect, useState, Fragment} from 'react';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  AsyncStorage,
+  TouchableOpacity,
+} from 'react-native';
+import {connect} from 'react-redux';
+import {getWishlist} from '../public/redux/action/wishlist';
 import MainNav from '../components/Header/MainNav';
 import MainFooter from '../components/Footer/MainFooter';
 import Wish from '../components/Body/Wish';
 
 function Wishlist(props) {
-  const {navigation} = props;
+  const {navigation, wishlist, user} = props;
+
+  const fetchList = async () => {
+    const token = await AsyncStorage.getItem('access_token');
+
+    await props.dispatch(getWishlist(user.id, token));
+  };
+
+  useEffect(() => {
+    fetchList();
+  }, []);
+
+  const onDetail = id => {
+    props.navigation.navigate('Detail', {id});
+  };
 
   return (
     <Fragment>
       <MainNav />
-      <View style={styles.WishlistContainer}>
-        <Wish />
-      </View>
+      <ScrollView style={styles.scroll}>
+        <View style={styles.WishlistContainer}>
+          {wishlist.map((wish, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => onDetail(wish.ProductId)}>
+              <Wish wish={wish} />
+            </TouchableOpacity>
+          ))}
+        </View>
+      </ScrollView>
       <MainFooter navigation={navigation} />
     </Fragment>
   );
@@ -26,6 +56,16 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'center',
   },
+  scroll: {
+    marginBottom: 50,
+  },
 });
 
-export default Wishlist;
+const mapStateToProps = state => {
+  return {
+    user: state.user.user,
+    wishlist: state.wishlist.wishlist,
+  };
+};
+
+export default connect(mapStateToProps)(Wishlist);

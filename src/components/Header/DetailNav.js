@@ -61,15 +61,15 @@ function DetailNav(props) {
     setHeart(false);
   };
 
-  const onProduct = () => {
-    navigation.navigate('List', props.id);
+  const onGoBack = () => {
+    navigation.goBack();
   };
 
   return (
     <Fragment>
       <Header style={styles.header}>
         <Left>
-          <Button transparent onPress={onProduct}>
+          <Button transparent onPress={onGoBack}>
             <Icon style={styles.iconStyle} name="arrow-back" />
           </Button>
         </Left>
