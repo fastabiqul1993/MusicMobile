@@ -9,6 +9,7 @@
 import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
+import {Root} from 'native-base';
 
 import Category from './container/Category';
 import ProductList from './container/ProductList';
@@ -83,9 +84,11 @@ const AppContainer = createAppContainer(AppNavigator);
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <AppContainer />
-    </Provider>
+    <Root>
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
+    </Root>
   );
 };
 

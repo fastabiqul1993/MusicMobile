@@ -1,9 +1,26 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
+import {connect} from 'react-redux';
 import {StyleSheet, View, Text} from 'react-native';
-import {Button, Form, Label, Input, Item} from 'native-base';
+import {Button, Form, Label, Input, Item, Toast} from 'native-base';
+import {register} from '../public/redux/action/user';
 import SignNav from '../components/Header/SignNav';
 
 const Register = props => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onRegister = () => {
+    props
+      .dispatch(register(name, email, password))
+      .then(() => {
+        Toast.show({text: 'Signup success!', buttonText: 'Okay'});
+      })
+      .catch(() => {
+        Toast.show({text: 'Signup failed!', buttonText: 'Okay'});
+      });
+  };
+
   const {navigation} = props;
 
   return (
@@ -17,18 +34,21 @@ const Register = props => {
         <Form style={styles.form}>
           <Item floatingLabel>
             <Label>Name</Label>
-            <Input />
+            <Input onChangeText={name => setName(name)} />
           </Item>
           <Item floatingLabel>
             <Label>Email</Label>
-            <Input />
+            <Input onChangeText={email => setEmail(email)} />
           </Item>
           <Item floatingLabel>
             <Label>Password</Label>
-            <Input />
+            <Input
+              secureTextEntry
+              onChangeText={password => setPassword(password)}
+            />
           </Item>
         </Form>
-        <Button style={styles.btnStyle} block rounded>
+        <Button onPress={onRegister} style={styles.btnStyle} block rounded>
           <Text style={{color: '#FFF'}}>Signup</Text>
         </Button>
       </View>
@@ -46,7 +66,6 @@ const styles = StyleSheet.create({
   },
   title: {
     alignSelf: 'flex-start',
-    // marginVertical: 40,
     marginTop: 40,
   },
   form: {
@@ -70,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Register;
+export default connect(null)(Register);
