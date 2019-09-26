@@ -1,22 +1,40 @@
-import React from 'react';
-import {StyleSheet, Touchable} from 'react-native';
-import {Footer, FooterTab, Button, Icon, Text, Badge} from 'native-base';
+import React, {Fragment, useState, useEffect} from 'react';
+import {StyleSheet, AsyncStorage} from 'react-native';
+import {connect} from 'react-redux';
+
+import {Footer, FooterTab, Button, Icon, Text, Badge, Toast} from 'native-base';
 
 const MainFooter = props => {
+  const {navigation, isLogin} = props;
+  const [token, setToken] = useState('');
+
+  const fetchToken = async () => {
+    const token = await AsyncStorage.getItem('access_token');
+    setToken(token);
+  };
+
+  useEffect(() => {
+    fetchToken();
+  }, []);
+
   const onHome = () => {
-    props.navigation.navigate('Home');
+    navigation.navigate('Home');
   };
 
   const onWishList = () => {
-    props.navigation.navigate('Wishlist');
+    navigation.navigate('Wishlist');
   };
 
   const onCart = () => {
-    props.navigation.navigate('Cart');
+    navigation.navigate('Cart');
   };
 
   const onUser = () => {
-    props.navigation.navigate('Sign');
+    navigation.navigate('Sign');
+  };
+
+  const onWarning = () => {
+    Toast.show({text: 'You must signin first!', buttonText: 'Okay'});
   };
 
   return (
@@ -26,17 +44,29 @@ const MainFooter = props => {
           <Icon name="home" />
           <Text style={styles.navText}>Home</Text>
         </Button>
-        <Button horizontal onPress={onWishList}>
-          <Icon name="heart" />
-          <Text style={styles.navText}>Wishlist</Text>
-        </Button>
-        <Button badge horizontal onPress={onCart}>
-          <Badge>
-            <Text>51</Text>
-          </Badge>
-          <Icon name="cart" />
-          <Text style={styles.navText}>Cart</Text>
-        </Button>
+        {isLogin ? (
+          <Fragment>
+            <Button horizontal onPress={onWishList}>
+              <Icon name="heart" />
+              <Text style={styles.navText}>Wishlist</Text>
+            </Button>
+            <Button horizontal onPress={onCart}>
+              <Icon name="cart" />
+              <Text style={styles.navText}>Cart</Text>
+            </Button>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <Button horizontal onPress={onWarning}>
+              <Icon name="heart" />
+              <Text style={styles.navText}>Wishlist</Text>
+            </Button>
+            <Button horizontal onPress={onWarning}>
+              <Icon name="cart" />
+              <Text style={styles.navText}>Cart</Text>
+            </Button>
+          </Fragment>
+        )}
         <Button horizontal onPress={onUser}>
           <Icon name="contact" />
           <Text style={styles.navText}>User</Text>
@@ -56,4 +86,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MainFooter;
+const mapStateToProps = state => {
+  return {
+    isLogin: state.user.isLogin,
+  };
+};
+
+export default connect(mapStateToProps)(MainFooter);

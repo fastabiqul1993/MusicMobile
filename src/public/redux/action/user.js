@@ -7,6 +7,13 @@ export const login = (email, password) => {
   };
 };
 
+export const logout = () => {
+  return {
+    type: 'LOGOUT',
+    payload: {isLogin: false, user: {}},
+  };
+};
+
 export const register = (name, email, password) => {
   return {
     type: 'REGISTER',

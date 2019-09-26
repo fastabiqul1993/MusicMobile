@@ -1,28 +1,28 @@
 import axios from 'axios';
 
-export const getCart = id => {
+export const getCart = (id, access_token) => {
   return {
     type: 'GET_CART',
     payload: axios.get(`http://localhost:3000/cart/${id}`, {
-      headers: {header_key: '4N3K4-MUS1K', access_token: auth.access_token},
+      headers: {header_key: '4N3K4-MUS1K', access_token},
     }),
   };
 };
 
-export const postCart = ProductId => {
+export const postCart = (ProductId, access_token) => {
   return {
     type: 'POST_CART',
     payload: axios.post(
       `http://localhost:3000/cart`,
       {UserId: auth.id, ProductId},
       {
-        headers: {header_key: '4N3K4-MUS1K', access_token: auth.access_token},
+        headers: {header_key: '4N3K4-MUS1K', access_token},
       },
     ),
   };
 };
 
-export const patchCart = (ProductId, qty) => {
+export const patchCart = (ProductId, qty, access_token) => {
   return {
     type: 'PATCH_CART',
     payload: axios.patch(
@@ -33,13 +33,13 @@ export const patchCart = (ProductId, qty) => {
         qty,
       },
       {
-        headers: {header_key: '4N3K4-MUS1K', access_token: auth.access_token},
+        headers: {header_key: '4N3K4-MUS1K', access_token},
       },
     ),
   };
 };
 
-export const deleteCart = ProductId => {
+export const deleteCart = (ProductId, access_token) => {
   return {
     type: 'DELETE_CART',
     payload: axios.delete(
@@ -49,7 +49,7 @@ export const deleteCart = ProductId => {
         ProductId,
       },
       {
-        headers: {header_key: '4N3K4-MUS1K', access_token: auth.access_token},
+        headers: {header_key: '4N3K4-MUS1K', access_token},
       },
     ),
   };

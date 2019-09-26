@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {StyleSheet, View, ScrollView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import MainNav from '../components/Header/MainNav';
 import Cart from '../components/Body/Cart';
 import CartFooter from '../components/Footer/CartFooter';

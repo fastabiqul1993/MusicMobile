@@ -1,10 +1,26 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {Button, Form, Label, Input, Item} from 'native-base';
+import {Button, Form, Label, Input, Item, Toast} from 'native-base';
+import {connect} from 'react-redux';
+import {login} from '../public/redux/action/user';
 import SignNav from '../components/Header/SignNav';
 
 const Login = props => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const {navigation} = props;
+
+  const onLogin = () => {
+    props
+      .dispatch(login(email, password))
+      .then(() => {
+        Toast.show({text: 'Signin success!', buttonText: 'Okay'});
+        navigation.navigate('Home');
+      })
+      .catch(() => {
+        Toast.show({text: 'Signin failed!', buttonText: 'Okay'});
+      });
+  };
 
   return (
     <Fragment>
@@ -17,14 +33,17 @@ const Login = props => {
         <Form style={styles.form}>
           <Item floatingLabel>
             <Label>Email</Label>
-            <Input />
+            <Input onChangeText={email => setEmail(email)} />
           </Item>
           <Item floatingLabel>
             <Label>Password</Label>
-            <Input />
+            <Input
+              secureTextEntry
+              onChangeText={password => setPassword(password)}
+            />
           </Item>
         </Form>
-        <Button style={styles.btnStyle} block rounded>
+        <Button onPress={onLogin} style={styles.btnStyle} block rounded>
           <Text style={{color: '#FFF'}}>Signin</Text>
         </Button>
       </View>
@@ -65,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default connect(null)(Login);

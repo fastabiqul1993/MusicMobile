@@ -9,19 +9,19 @@ const Register = props => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const {navigation} = props;
 
   const onRegister = () => {
     props
       .dispatch(register(name, email, password))
       .then(() => {
         Toast.show({text: 'Signup success!', buttonText: 'Okay'});
+        navigation.navigate('Login');
       })
       .catch(() => {
         Toast.show({text: 'Signup failed!', buttonText: 'Okay'});
       });
   };
-
-  const {navigation} = props;
 
   return (
     <Fragment>

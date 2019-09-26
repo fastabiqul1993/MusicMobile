@@ -1,12 +1,10 @@
 import React, {Fragment, useEffect} from 'react';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, AsyncStorage} from 'react-native';
 import {connect} from 'react-redux';
 import {getAllCategory} from '../public/redux/action/category';
 import MainNav from '../components/Header/MainNav';
 import MainFooter from '../components/Footer/MainFooter';
 import CategoryCard from '../components/Body/CategoryCard';
-import Cart from '../components/Body/Cart';
-import CartFooter from '../components/Footer/CartFooter';
 
 const Home = props => {
   const fetchCategories = async () => {
@@ -20,6 +18,8 @@ const Home = props => {
   const onProduct = id => {
     props.navigation.navigate('List', {productId: id});
   };
+
+  console.log(AsyncStorage.getItem('name'));
 
   const {categories, navigation} = props;
 
