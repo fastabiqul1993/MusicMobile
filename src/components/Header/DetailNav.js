@@ -1,11 +1,57 @@
-import React, {Fragment} from 'react';
-import {Image, StyleSheet} from 'react-native';
-import {Left, Body, Right, Button, Header, Icon} from 'native-base';
+import React, {Fragment, useState, useEffect} from 'react';
+import {Image, StyleSheet, AsyncStorage} from 'react-native';
+import {connect} from 'react-redux';
+import {Left, Body, Right, Button, Header, Icon, Toast} from 'native-base';
+import {
+  postWishlist,
+  deleteWishlist,
+  getWishlist,
+} from '../../public/redux/action/wishlist';
 import logo from '../../asset/aneka-musik.png';
 
 function DetailNav(props) {
+  const {wishlist, product, user, navigation} = props;
+  const [token, setToken] = useState('');
+
+  const fetchData = async () => {
+    const token = await AsyncStorage.getItem('access_token');
+    setToken(token);
+
+    await props.dispatch(getWishlist(user.id, token));
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const found = wishlist.find(target => {
+    return target.UserId === user.id && target.ProductId === product.id;
+  });
+
+  const onWishlist = () => {
+    props
+      .dispatch(postWishlist(product.id, user.id, token))
+      .then(() => {
+        Toast.show({text: 'Success add to wishlist!'});
+      })
+      .catch(() => {
+        Toast.show({text: 'Failed add to wishlist'});
+      });
+  };
+
+  const onDeleteWish = () => {
+    props
+      .dispatch(deleteWishlist(product.id, user.id, token))
+      .then(() => {
+        Toast.show({text: 'Success delete from wishlist!'});
+      })
+      .catch(() => {
+        Toast.show({text: 'Failed delete from wishlist'});
+      });
+  };
+
   const onProduct = () => {
-    props.navigation.navigate('List', props.id);
+    navigation.navigate('List', props.id);
   };
 
   return (
@@ -20,9 +66,19 @@ function DetailNav(props) {
           <Image source={logo} style={styles.logo} />
         </Body>
         <Right>
-          <Button transparent>
-            <Icon style={styles.iconStyle} name="heart-empty" />
-          </Button>
+          {found ? (
+            <Fragment>
+              <Button onPress={onDeleteWish} transparent>
+                <Icon style={styles.iconStyle} name="heart" />
+              </Button>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <Button onPress={onWishlist} transparent>
+                <Icon style={styles.iconStyle} name="heart-empty" />
+              </Button>
+            </Fragment>
+          )}
         </Right>
       </Header>
     </Fragment>
@@ -41,4 +97,11 @@ const styles = StyleSheet.create({
   iconStyle: {color: '#140101'},
 });
 
-export default DetailNav;
+const mapStateToProps = state => {
+  return {
+    wishlist: state.wishlist.wishlist,
+    user: state.user.user,
+  };
+};
+
+export default connect(mapStateToProps)(DetailNav);

@@ -18,9 +18,9 @@ const Detail = props => {
 
   return (
     <Fragment>
-      <DetailNav navigation={navigation} />
+      <DetailNav navigation={navigation} product={product} />
       <View style={styles.container}>
-        <ProductDetail id={product.id} product={product} />
+        <ProductDetail product={product} />
       </View>
     </Fragment>
   );

@@ -8,15 +8,15 @@ function ProductDetail(props) {
   const {product, user, cartList} = props;
   const [token, setToken] = useState('');
 
-  const fetchToken = async () => {
+  const fetchData = async () => {
     const token = await AsyncStorage.getItem('access_token');
-    await props.dispatch(getCart(user.id, token));
-
     setToken(token);
+
+    await props.dispatch(getCart(user.id, token));
   };
 
   useEffect(() => {
-    fetchToken();
+    fetchData();
   }, []);
 
   const onAddCart = () => {
