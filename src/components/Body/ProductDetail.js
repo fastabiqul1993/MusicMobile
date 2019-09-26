@@ -1,10 +1,26 @@
-import React from 'react';
-import {StyleSheet, View, Image} from 'react-native';
-import {Button} from 'native-base';
-import {Text} from 'native-base';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, Image, AsyncStorage} from 'react-native';
+import {Button, Text} from 'native-base';
+import {connect} from 'react-redux';
+import {postCart} from '../../public/redux/action/cart';
 
 function ProductDetail(props) {
-  const product = props.product;
+  const {product, user} = props;
+  const [token, setToken] = useState('');
+
+  const fetchToken = async () => {
+    const token = await AsyncStorage.getItem('access_token');
+
+    setToken(token);
+  };
+
+  useEffect(() => {
+    fetchToken();
+  }, []);
+
+  const onAddCart = () => {
+    props.dispatch(postCart(product.id, token, user.id));
+  };
 
   return (
     <View style={styles.wrapper}>
@@ -18,7 +34,7 @@ function ProductDetail(props) {
         </Text>
         <Text style={styles.txtPrice}>Rp. {product.price}</Text>
       </View>
-      <Button style={styles.btnStyle} block rounded>
+      <Button onPress={onAddCart} style={styles.btnStyle} block rounded>
         <Text>Add to Cart</Text>
       </Button>
     </View>
@@ -62,4 +78,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductDetail;
+const mapStateToProps = state => {
+  return {
+    user: state.user.user,
+  };
+};
+
+export default connect(mapStateToProps)(ProductDetail);

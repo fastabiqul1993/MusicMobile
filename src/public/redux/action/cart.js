@@ -9,12 +9,12 @@ export const getCart = (id, access_token) => {
   };
 };
 
-export const postCart = (ProductId, access_token) => {
+export const postCart = (ProductId, access_token, UserId) => {
   return {
     type: 'POST_CART',
     payload: axios.post(
       `http://localhost:3000/cart`,
-      {UserId: auth.id, ProductId},
+      {UserId, ProductId},
       {
         headers: {header_key: '4N3K4-MUS1K', access_token},
       },
