@@ -22,13 +22,13 @@ export const postCart = (ProductId, access_token, UserId) => {
   };
 };
 
-export const patchCart = (ProductId, qty, access_token) => {
+export const patchCart = (ProductId, qty, UserId, access_token) => {
   return {
     type: 'PATCH_CART',
-    payload: axios.patch(
+    payload: axios.put(
       `http://localhost:3000/cart`,
       {
-        UserId: auth.id,
+        UserId,
         ProductId,
         qty,
       },
@@ -39,13 +39,13 @@ export const patchCart = (ProductId, qty, access_token) => {
   };
 };
 
-export const deleteCart = (ProductId, access_token) => {
+export const deleteCart = (UserId, ProductId, access_token) => {
   return {
     type: 'DELETE_CART',
     payload: axios.delete(
       `http://localhost:3000/cart`,
       {
-        UserId: auth.id,
+        UserId,
         ProductId,
       },
       {

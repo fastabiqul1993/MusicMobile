@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Image, AsyncStorage} from 'react-native';
-import {Button, Text} from 'native-base';
+import {Button, Text, Toast} from 'native-base';
 import {connect} from 'react-redux';
-import {postCart} from '../../public/redux/action/cart';
+import {postCart, patchCart, getCart} from '../../public/redux/action/cart';
 
 function ProductDetail(props) {
-  const {product, user} = props;
+  const {product, user, cartList} = props;
   const [token, setToken] = useState('');
 
   const fetchToken = async () => {
     const token = await AsyncStorage.getItem('access_token');
+    await props.dispatch(getCart(user.id, token));
 
     setToken(token);
   };
@@ -19,7 +20,31 @@ function ProductDetail(props) {
   }, []);
 
   const onAddCart = () => {
-    props.dispatch(postCart(product.id, token, user.id));
+    const found = cartList.find(target => {
+      return target.UserId === user.id && target.ProductId === product.id;
+    });
+
+    if (!found) {
+      props
+        .dispatch(postCart(product.id, token, user.id))
+        .then(() => {
+          Toast.show({text: 'Success add to cart!', buttonText: 'Okay'});
+        })
+        .catch(() => {
+          Toast.show({text: 'Add to cart failed!', buttonText: 'Okay'});
+        });
+    }
+    if (found) {
+      const qty = (found.qty += 1);
+      props
+        .dispatch(patchCart(product.id, qty, user.id, token))
+        .then(() => {
+          Toast.show({text: 'Success add to cart!', buttonText: 'Okay'});
+        })
+        .catch(() => {
+          Toast.show({text: 'Add to cart failed!', buttonText: 'Okay'});
+        });
+    }
   };
 
   return (
@@ -81,6 +106,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     user: state.user.user,
+    cartList: state.cart.cartList,
   };
 };
 
