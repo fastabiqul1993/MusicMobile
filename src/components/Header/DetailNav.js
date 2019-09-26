@@ -12,10 +12,23 @@ import logo from '../../asset/aneka-musik.png';
 function DetailNav(props) {
   const {wishlist, product, user, navigation} = props;
   const [token, setToken] = useState('');
+  const [heart, setHeart] = useState(null);
+
+  const found = wishlist.find(target => {
+    return target.UserId === user.id && target.ProductId === product.id;
+  });
 
   const fetchData = async () => {
     const token = await AsyncStorage.getItem('access_token');
     setToken(token);
+
+    if (found) {
+      setHeart(true);
+    }
+
+    if (!found) {
+      setHeart(false);
+    }
 
     await props.dispatch(getWishlist(user.id, token));
   };
@@ -23,10 +36,6 @@ function DetailNav(props) {
   useEffect(() => {
     fetchData();
   }, []);
-
-  const found = wishlist.find(target => {
-    return target.UserId === user.id && target.ProductId === product.id;
-  });
 
   const onWishlist = () => {
     props
@@ -37,17 +46,19 @@ function DetailNav(props) {
       .catch(() => {
         Toast.show({text: 'Failed add to wishlist'});
       });
+    setHeart(true);
   };
 
   const onDeleteWish = () => {
     props
-      .dispatch(deleteWishlist(product.id, user.id, token))
+      .dispatch(deleteWishlist(found.id, token))
       .then(() => {
         Toast.show({text: 'Success delete from wishlist!'});
       })
       .catch(() => {
         Toast.show({text: 'Failed delete from wishlist'});
       });
+    setHeart(false);
   };
 
   const onProduct = () => {
@@ -66,7 +77,7 @@ function DetailNav(props) {
           <Image source={logo} style={styles.logo} />
         </Body>
         <Right>
-          {found ? (
+          {heart ? (
             <Fragment>
               <Button onPress={onDeleteWish} transparent>
                 <Icon style={styles.iconStyle} name="heart" />
