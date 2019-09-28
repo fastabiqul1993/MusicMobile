@@ -7,6 +7,7 @@ import SignNav from '../components/Header/SignNav';
 
 const Sign = props => {
   const {navigation, isLogin, user} = props;
+  const fakeLogin = true;
 
   const onLogin = () => {
     props.navigation.navigate('Login');
@@ -27,23 +28,21 @@ const Sign = props => {
     <Fragment>
       <SignNav navigation={navigation} />
       <View style={styles.SignContainer}>
-        {isLogin ? (
+        {fakeLogin ? (
           <Fragment>
-            <View style={{alignSelf: 'flex-start', marginVertical: 60}}>
-              <Text style={{fontSize: 30}}>Hi, {user.name}</Text>
-              <Text>Nice to see you again</Text>
+            <View style={{width: 100, height: 100, backgroundColor: 'blue'}}>
+              <Text
+                style={{
+                  margin: 0,
+                  position: 'absolute',
+                  top: '45%',
+                  left: '45%',
+                }}>
+                T
+              </Text>
             </View>
             <Button block rounded style={styles.SignIn} onPress={onLogut}>
-              <Text style={{color: '#FFFFFF'}}>Sign out</Text>
-            </Button>
-            <Text style={styles.orText}>Or</Text>
-            <Button
-              block
-              bordered
-              rounded
-              style={styles.SignUp}
-              onPress={onRegister}>
-              <Text style={{color: '#F5D273'}}>Request new instrument</Text>
+              <Text style={styles.btnText}>Sign out</Text>
             </Button>
           </Fragment>
         ) : (
@@ -53,7 +52,7 @@ const Sign = props => {
               <Text>Please sign up or sign in first</Text>
             </View>
             <Button block rounded style={styles.SignIn} onPress={onLogin}>
-              <Text style={{color: '#FFFFFF'}}>Sign In</Text>
+              <Text style={styles.btnText}>Sign In</Text>
             </Button>
             <Text style={styles.orText}>Or</Text>
             <Button
@@ -83,6 +82,11 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     backgroundColor: '#F5D273',
     marginVertical: 10,
+  },
+  btnText: {
+    fontFamily: 'Open-Reguler',
+    color: '#FFF',
+    fontSize: 18,
   },
   SignUp: {
     borderColor: '#F5D273',

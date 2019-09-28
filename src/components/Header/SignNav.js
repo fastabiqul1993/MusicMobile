@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {Image, StyleSheet} from 'react-native';
 import {Left, Body, Right, Button, Header, Icon} from 'native-base';
-import logo from '../../asset/aneka-musik.png';
+import logo from '../../../assets/aneka-musik.png';
 
 function DetailNav(props) {
   const onProduct = () => {

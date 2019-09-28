@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {Header, Body} from 'native-base';
 import {Image, StyleSheet} from 'react-native';
-import logo from '../../asset/aneka-musik.png';
+import logo from '../../../assets/aneka-musik.png';
 
 const MainNav = () => {
   return (

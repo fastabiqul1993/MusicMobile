@@ -1,13 +1,13 @@
 import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
-function CartFooter() {
+const CartFooter = props => {
   return (
     <View style={styles.wrapper}>
       <View style={styles.content}>
         <View style={styles.txtContainer}>
           <Text>Total:</Text>
-          <Text>Rp. 50.000,00</Text>
+          <Text>Rp. {props.count}</Text>
         </View>
         <TouchableOpacity>
           <View style={styles.btn}>
@@ -17,7 +17,7 @@ function CartFooter() {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   wrapper: {

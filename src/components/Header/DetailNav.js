@@ -7,7 +7,7 @@ import {
   deleteWishlist,
   getWishlist,
 } from '../../public/redux/action/wishlist';
-import logo from '../../asset/aneka-musik.png';
+import logo from '../../../assets/aneka-musik.png';
 
 function DetailNav(props) {
   const {wishlist, product, user, navigation} = props;

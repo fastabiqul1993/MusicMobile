@@ -3,7 +3,7 @@ import axios from 'axios';
 export const getAllProduct = id => {
   return {
     type: 'GET_ALL_PRODUCT',
-    payload: axios.get(`http://localhost:3000/product`, {
+    payload: axios.get(`https://kepet-goreng.herokuapp.com/product`, {
       params: {
         CategoryId: id,
       },
@@ -14,23 +14,27 @@ export const getAllProduct = id => {
 export const getProduct = id => {
   return {
     type: 'GET_PRODUCT',
-    payload: axios.get(`http://localhost:3000/product/${id}`),
+    payload: axios.get(`https://kepet-goreng.herokuapp.com/product/${id}`),
   };
 };
 
 export const getProductName = () => {
   return {
     type: 'GET_PRODUCT_NAME',
-    payload: axios.get(`http://localhost:3000/product/search`),
+    payload: axios.get(`https://kepet-goreng.herokuapp.com/product/search`),
   };
 };
 
 export const postProduct = formData => {
   return {
     type: 'POST_PRODUCT',
-    payload: axios.post(`http://localhost:3000/product/`, formData, {
-      headers: {header_key: '4N3K4-MUS1K', access_token: auth.access_token},
-    }),
+    payload: axios.post(
+      `https://kepet-goreng.herokuapp.com/product/`,
+      formData,
+      {
+        headers: {header_key: '4N3K4-MUS1K', access_token: auth.access_token},
+      },
+    ),
   };
 };
 
@@ -45,20 +49,21 @@ export const updateProduct = (
 ) => {
   return {
     type: 'UPDATE_PRODUCT',
-    payload: axios.patch(
-      `http://localhost:3000/product/${id}`,
-      {name, qty, price, CategoryId, BranchId, description},
-      // {
-      //   headers: { header_key: "4N3K4-MUS1K", access_token: auth.access_token }
-      // }
-    ),
+    payload: axios.patch(`https://kepet-goreng.herokuapp.com/product/${id}`, {
+      name,
+      qty,
+      price,
+      CategoryId,
+      BranchId,
+      description,
+    }),
   };
 };
 
 export const deleteProduct = id => {
   return {
     type: 'DELETE_PRODUCT',
-    payload: axios.delete(`http://localhost:3000/product/${id}`, {
+    payload: axios.delete(`https://kepet-goreng.herokuapp.com/product/${id}`, {
       headers: {header_key: '4N3K4-MUS1K', access_token: auth.access_token},
     }),
   };
